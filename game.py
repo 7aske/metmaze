@@ -1,8 +1,8 @@
 import pygame
-from player import Player
 import env
-from spritesheet import Spritesheet
 import maze
+from player import Player
+from spritesheet import Spritesheet
 
 pygame.init()
 
@@ -17,7 +17,7 @@ player_sprite = spritesheet.sprite_at(4, 8)
 wall_sprite = spritesheet.sprite_at(0, 1)
 floor_sprite = spritesheet.sprite_at(4, 6)
 
-player = Player(player_sprite, 32, 32)
+player = Player(player_sprite, 1, 1)
 player_speed = 2
 
 fps = int(1000 / 60)
@@ -37,13 +37,17 @@ def user_input():
 	keys = pygame.key.get_pressed()
 
 	if keys[pygame.K_LEFT]:
-		player.x -= player_speed
+		if level[player.y * env.LEVEL_W + player.x - 1] == 0:
+			player.move(player.MoveDir.LEFT)
 	if keys[pygame.K_RIGHT]:
-		player.x += player_speed
+		if level[player.y * env.LEVEL_W + player.x + 1] == 0:
+			player.move(player.MoveDir.RIGHT)
 	if keys[pygame.K_UP]:
-		player.y -= player_speed
+		if level[(player.y - 1) * env.LEVEL_W + player.x] == 0:
+			player.move(player.MoveDir.UP)
 	if keys[pygame.K_DOWN]:
-		player.y += player_speed
+		if level[(player.y + 1) * env.LEVEL_W + player.x] == 0:
+			player.move(player.MoveDir.DOWN)
 
 
 def update():
