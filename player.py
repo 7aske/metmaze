@@ -1,7 +1,5 @@
-from enum import Enum
-
-import pygame
 import env
+from enum import Enum
 
 class Player:
 	class PlayerDir(Enum):
@@ -10,6 +8,8 @@ class Player:
 		LEFT=2
 		RIGHT=3
 
+	# konstruktor i njegova tri parametra
+	# self postoji u svako metodi u klasi (slef = this u C#)
 	def __init__(self, sprite, x=1, y=1):
 		self.x = x
 		self.y = y
@@ -17,9 +17,12 @@ class Player:
 		self.max_move = 2
 		self.next_move = self.max_move
 
+	# pomocna metoda za iscrtavanje samog igracana ekranu
 	def blit(self, screen):
 		screen.blit(self.sprite, (self.x * env.BLOCK_SIZE[0], self.y * env.BLOCK_SIZE[1]))
 
+	# pomeramo igraca u zavisnosti od toga da li smo sacekali dovoljno od
+	# prethodnog trenutka kada samo se pomerili
 	def move(self, d: PlayerDir):
 		if self.next_move == 0:
 			self.next_move = self.max_move
